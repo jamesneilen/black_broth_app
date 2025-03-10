@@ -30,16 +30,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-    go_router: ^14.8.1
-    provider: ^6.0.1
-    provider: ^6.1.2
-    firebase_auth: ^5.5.1
-    firebase_core: ^3.12.1
-    pdf: ^3.11.3
+   
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  go_router: ^14.8.1
+  provider: ^6.1.2
+  firebase_auth: ^5.5.1
+  firebase_core: ^3.12.1
+  pdf: ^3.11.3
 
 dev_dependencies:
   flutter_test:
@@ -63,9 +63,11 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-assets:
-  - assets/images/african_food
-  - assets/images/drinks
-  - assets/images/modern_food
-  - assets/fonts/
-  - assets/icons/
+  assets:
+    - assets/icons/
+    - assets/images/african_food/
+    - assets/images/drinks/
+    - assets/images/modern_food/
+    - assets/fonts/
+    - assets/
+  
