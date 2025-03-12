@@ -1,4 +1,5 @@
 import 'package:black_broth/theme/app_colors.dart';
+import 'package:black_broth/views/cart/receipt_screen.dart';
 import 'package:black_broth/widgets/mybotton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -110,41 +111,44 @@ class CartScreen extends StatelessWidget {
                                 subtitle: Text(
                                   "\XAF${cartItem.food.price.toStringAsFixed(2)} x ${cartItem.quantity}",
                                 ),
-                                trailing: Container(
-                                  decoration: BoxDecoration(
-                                    color: AppColors.primary,
-                                    borderRadius: BorderRadius.circular(40),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.remove,
-                                          color: Colors.white,
+                                trailing: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primary,
+                                      borderRadius: BorderRadius.circular(40),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.remove,
+                                            color: Colors.white,
+                                          ),
+                                          onPressed: () {
+                                            cartProvider.decreaseQuantity(
+                                              cartItem.food,
+                                            );
+                                          },
                                         ),
-                                        onPressed: () {
-                                          cartProvider.decreaseQuantity(
-                                            cartItem.food,
-                                          );
-                                        },
-                                      ),
-                                      Text(
-                                        cartItem.quantity.toString(),
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.add,
-                                          color: Colors.white,
+                                        Text(
+                                          cartItem.quantity.toString(),
+                                          style: TextStyle(fontSize: 18),
                                         ),
-                                        onPressed: () {
-                                          cartProvider.increaseQuantity(
-                                            cartItem.food,
-                                          );
-                                        },
-                                      ),
-                                    ],
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.add,
+                                            color: Colors.white,
+                                          ),
+                                          onPressed: () {
+                                            cartProvider.increaseQuantity(
+                                              cartItem.food,
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -167,7 +171,9 @@ class CartScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 10),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () async {
+                            await generateReceipt(context);
+                          },
                           child: MyBotton(text: 'Complete Order'),
                         ),
                       ],
