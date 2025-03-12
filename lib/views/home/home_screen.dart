@@ -5,16 +5,21 @@ import 'package:provider/provider.dart';
 
 import '../../models/food_item_model.dart';
 import '../../services/food_service.dart';
+import '../../widgets/bottom_nav_bar.dart';
+import '../../widgets/search_bar.dart';
+import '../cart/cart_screen.dart';
 import 'side_bar.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final TextEditingController _searchController = TextEditingController();
+
   final List<String> categories = ['Modern Food', 'Africa Food', 'Drinks'];
   int _currentIndex = 0;
   int selectedCategoryIndex = 0;
@@ -38,7 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
               width: 20,
               child: Image.asset('assets/icons/cart.png', color: Colors.black),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartScreen()),
+              );
+            },
           ),
           SizedBox(width: 20),
         ],
@@ -59,16 +69,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.only(left: 40, right: 40),
-            child: SearchBar(
-              backgroundColor: WidgetStatePropertyAll(AppColors.tertiary),
-              elevation: WidgetStatePropertyAll(0),
-              focusNode: FocusNode(),
-              leading: Icon(Icons.search, color: AppColors.secondary),
-            ),
+          MySearchBar(
+            controller: _searchController,
+            onChanged: (query) => categoryProvider.searchFood(query),
           ),
           SizedBox(height: 20),
+
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Container(
@@ -128,14 +134,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 260,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: categoryProvider.filteredFoodItems.length,
+                      itemCount: categoryProvider.cfilteredFoodItems.length,
                       itemBuilder: (context, index) {
-                        final food = categoryProvider.filteredFoodItems[index];
-                        return FoodCard(
-                          name: food.name,
-                          image: food.image,
-                          price: food.price,
-                        );
+                        final food = categoryProvider.cfilteredFoodItems[index];
+                        return FoodCard(food: food);
                       },
                     ),
                   ),
@@ -146,20 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       drawer: SideBar(),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (value) => print(value),
-        unselectedItemColor: AppColors.secondary,
-        selectedItemColor: AppColors.primary,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorite',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'profile'),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'history'),
-        ],
-      ),
+      bottomNavigationBar: BottomNavBar(),
     );
   }
 }

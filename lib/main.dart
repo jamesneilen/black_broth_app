@@ -1,13 +1,20 @@
+import 'package:black_broth/views/food/food_item_view_screen.dart';
 import 'package:black_broth/views/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'services/cart_service.dart';
+import 'services/favorite_service.dart';
 import 'services/food_service.dart';
 import 'views/auths/signin_screen.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => CategoryProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CategoryProvider()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (context) => FavoriteProvider()),
+      ],
       child: MyApp(),
     ),
   );
@@ -23,6 +30,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'black broth',
       debugShowCheckedModeBanner: false,
+
       home: HomeScreen(),
     );
   }

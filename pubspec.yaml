@@ -40,6 +40,9 @@ dependencies:
   firebase_auth: ^5.5.1
   firebase_core: ^3.12.1
   pdf: ^3.11.3
+  dots_indicator: ^4.0.1
+  flutter_slidable: ^4.0.0
+  printing: ^5.14.2
 
 dev_dependencies:
   flutter_test:
