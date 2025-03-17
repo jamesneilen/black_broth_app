@@ -1,3 +1,4 @@
+import 'package:black_broth/models/food_item_model.dart';
 import 'package:black_broth/theme/app_colors.dart';
 import 'package:black_broth/views/cart/receipt_screen.dart';
 import 'package:black_broth/widgets/mybotton.dart';
@@ -14,7 +15,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
-    final favoriteProvider = Provider.of<FavoriteProvider>(
+    final favoriteProvider = Provider.of<FavoritesProvider>(
       context,
       listen: false,
     );
@@ -54,21 +55,17 @@ class CartScreen extends StatelessWidget {
                             bottom: 7,
                           ),
                           child: Slidable(
-                            key: Key(cartItem.food.name),
+                            key: Key(cartItem.food['name']),
                             endActionPane: ActionPane(
                               // Slide only to the left
                               motion: const BehindMotion(),
                               children: [
                                 SlidableAction(
                                   onPressed: (context) {
-                                    favoriteProvider.toggleFavorite(
-                                      cartItem.food,
-                                    );
-
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
-                                          "${cartItem.food.name} added to favorites!",
+                                          "${cartItem.food['name']} added to favorites!",
                                         ),
                                       ),
                                     );
@@ -84,7 +81,7 @@ class CartScreen extends StatelessWidget {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
-                                          "${cartItem.food.name} removed from cart!",
+                                          "${cartItem.food['name']} removed from cart!",
                                         ),
                                       ),
                                     );
@@ -104,12 +101,12 @@ class CartScreen extends StatelessWidget {
                               child: ListTile(
                                 leading: CircleAvatar(
                                   backgroundImage: AssetImage(
-                                    cartItem.food.image,
+                                    "assets/images/${cartItem.food['image']}",
                                   ),
                                 ),
-                                title: Text(cartItem.food.name),
+                                title: Text(cartItem.food['name']),
                                 subtitle: Text(
-                                  "\XAF${cartItem.food.price.toStringAsFixed(2)} x ${cartItem.quantity}",
+                                  "XAF${cartItem.food['price'].toStringAsFixed(2)} x ${cartItem.quantity}",
                                 ),
                                 trailing: Padding(
                                   padding: const EdgeInsets.all(10.0),
@@ -163,7 +160,7 @@ class CartScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          "Total: \XAF ${cartProvider.totalPrice.toStringAsFixed(2)}",
+                          "Total: XAF ${cartProvider.totalPrice.toStringAsFixed(2)}",
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -181,26 +178,6 @@ class CartScreen extends StatelessWidget {
                   ),
                 ],
               ),
-    );
-  }
-
-  // Swipe left background (Favorite icon)
-  Widget swipeLeftBackground() {
-    return Container(
-      color: Colors.blue,
-      alignment: Alignment.centerLeft,
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      child: Icon(Icons.favorite, color: Colors.white, size: 30),
-    );
-  }
-
-  // Swipe right background (Delete icon)
-  Widget swipeRightBackground() {
-    return Container(
-      color: Colors.red,
-      alignment: Alignment.centerRight,
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      child: Icon(Icons.delete, color: Colors.white, size: 30),
     );
   }
 }

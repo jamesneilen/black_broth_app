@@ -1,9 +1,9 @@
 import 'package:black_broth/theme/app_colors.dart';
 import 'package:black_broth/widgets/food_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/food_item_model.dart';
 import '../../services/food_service.dart';
 import '../../widgets/bottom_nav_bar.dart';
 import '../../widgets/search_bar.dart';
@@ -20,7 +20,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
 
-  final List<String> categories = ['Modern Food', 'Africa Food', 'Drinks'];
+  final List<String> categories = ['Modern Food', 'African Food', 'Drinks'];
   int _currentIndex = 0;
   int selectedCategoryIndex = 0;
 
@@ -32,13 +32,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final categoryProvider = Provider.of<CategoryProvider>(context);
+    final foodProvider = Provider.of<FoodProvider>(context);
+    var filteredFood =
+        foodProvider.foodItems
+            .where((food) => food['category'] == foodProvider.selectedCategory)
+            .toList();
 
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
-            icon: Container(
+            icon: SizedBox(
               height: 20,
               width: 20,
               child: Image.asset('assets/icons/cart.png', color: Colors.black),
@@ -71,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(height: 20),
           MySearchBar(
             controller: _searchController,
-            onChanged: (query) => categoryProvider.searchFood(query),
+            // onChanged: (query) => categoryProvider.searchFood(query),
           ),
           SizedBox(height: 20),
 
@@ -81,20 +85,18 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.symmetric(vertical: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(categoryProvider.categories.length, (
-                  index,
-                ) {
-                  bool isSelected =
-                      categoryProvider.selectedCategoryIndex == index;
+                children: List.generate(categories.length, (index) {
+                  String category = categories[index];
+                  bool isSelected = foodProvider.selectedCategory == category;
                   return GestureDetector(
-                    onTap: () => categoryProvider.selectCategory(index),
+                    onTap: () => foodProvider.selectCategory(category),
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            categoryProvider.categories[index],
+                            category,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -126,27 +128,26 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SizedBox(height: 60),
 
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    height: 260,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: categoryProvider.cfilteredFoodItems.length,
-                      itemBuilder: (context, index) {
-                        final food = categoryProvider.cfilteredFoodItems[index];
-                        return FoodCard(food: food);
-                      },
-                    ),
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 260,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: filteredFood.length,
+                    itemBuilder: (context, index) {
+                      final food = filteredFood[index];
+                      return FoodCard(food: food);
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
       ),
+
       drawer: SideBar(),
       bottomNavigationBar: BottomNavBar(),
     );

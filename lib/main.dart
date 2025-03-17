@@ -1,19 +1,21 @@
-import 'package:black_broth/views/food/food_item_view_screen.dart';
 import 'package:black_broth/views/home/home_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'services/cart_service.dart';
 import 'services/favorite_service.dart';
+import 'firebase_options.dart';
 import 'services/food_service.dart';
-import 'views/auths/signin_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => CategoryProvider()),
+        ChangeNotifierProvider(create: (_) => FoodProvider()..fetchFoodItems()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
-        ChangeNotifierProvider(create: (context) => FavoriteProvider()),
+        ChangeNotifierProvider(create: (context) => FavoritesProvider()),
       ],
       child: MyApp(),
     ),

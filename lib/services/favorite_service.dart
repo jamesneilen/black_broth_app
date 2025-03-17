@@ -1,22 +1,36 @@
 import 'package:flutter/material.dart';
 
-import '../models/food_item_model.dart';
+class FavoriteItem {
+  final String id;
+  final String name;
+  final String image;
+  final double price;
 
-class FavoriteProvider extends ChangeNotifier {
-  final List<FoodItem> _favoriteItems = [];
+  FavoriteItem({
+    required this.id,
+    required this.name,
+    required this.image,
+    required this.price,
+  });
+}
 
-  List<FoodItem> get favoriteItems => _favoriteItems;
+class FavoritesProvider with ChangeNotifier { 
+  final Map<String, FavoriteItem> _favorites = {};
 
-  void toggleFavorite(FoodItem food) {
-    if (_favoriteItems.contains(food)) {
-      _favoriteItems.remove(food);
+  Map<String, FavoriteItem> get favorites => _favorites;
+
+  // Add or remove item from favorites
+  void toggleFavorite(String id, String name, String image, double price) {
+    if (_favorites.containsKey(id)) {
+      _favorites.remove(id);
     } else {
-      _favoriteItems.add(food);
+      _favorites[id] = FavoriteItem(id: id, name: name, image: image, price: price);
     }
     notifyListeners();
   }
 
-  bool isFavorite(FoodItem food) {
-    return _favoriteItems.contains(food);
+  // Check if item is in favorites
+  bool isFavorite(String id) {
+    return _favorites.containsKey(id);
   }
 }

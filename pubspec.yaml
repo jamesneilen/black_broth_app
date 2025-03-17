@@ -43,6 +43,7 @@ dependencies:
   dots_indicator: ^4.0.1
   flutter_slidable: ^4.0.0
   printing: ^5.14.2
+  cloud_firestore: ^5.6.5
 
 dev_dependencies:
   flutter_test:
@@ -68,9 +69,6 @@ flutter:
 
   assets:
     - assets/icons/
-    - assets/images/african_food/
-    - assets/images/drinks/
-    - assets/images/modern_food/
-    - assets/fonts/
-    - assets/
+    - assets/images/
+   
   
