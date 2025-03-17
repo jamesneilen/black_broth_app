@@ -140,7 +140,9 @@ class CartScreen extends StatelessWidget {
                                           ),
                                           onPressed: () {
                                             cartProvider.increaseQuantity(
-                                              cartItem.food,
+                                              Map<String, dynamic>.from(
+                                                cartItem.food.data(),
+                                              ),
                                             );
                                           },
                                         ),

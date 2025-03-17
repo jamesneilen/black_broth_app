@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../models/food_item_model.dart';
 
 class CartItem {
   final food;
@@ -14,7 +13,9 @@ class CartProvider extends ChangeNotifier {
   List<CartItem> get cartItems => _cartItems;
 
   void addToCart(food) {
-    int index = _cartItems.indexWhere((item) => item.food.name == food["name"]);
+    int index = _cartItems.indexWhere(
+      (item) => item.food["name"] == food["name"],
+    );
     if (index != -1) {
       _cartItems[index].quantity++;
     } else {
@@ -24,12 +25,14 @@ class CartProvider extends ChangeNotifier {
   }
 
   void removeFromCart(food) {
-    _cartItems.removeWhere((item) => item.food.name == food["name"]);
+    _cartItems.removeWhere((item) => item.food["name"] == food["name"]);
     notifyListeners();
   }
 
-  void increaseQuantity(food) {
-    int index = _cartItems.indexWhere((item) => item.food.name == food['name']);
+  void increaseQuantity(Map<String, dynamic> food) {
+    int index = _cartItems.indexWhere(
+      (item) => item.food["name"] == food["name"],
+    );
     if (index != -1) {
       _cartItems[index].quantity++;
       notifyListeners();
@@ -37,7 +40,9 @@ class CartProvider extends ChangeNotifier {
   }
 
   void decreaseQuantity(food) {
-    int index = _cartItems.indexWhere((item) => item.food.name == food['name']);
+    int index = _cartItems.indexWhere(
+      (item) => item.food["name"] == food['name'],
+    );
     if (index != -1) {
       if (_cartItems[index].quantity > 1) {
         _cartItems[index].quantity--;
