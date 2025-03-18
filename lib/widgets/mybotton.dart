@@ -1,11 +1,5 @@
-import 'dart:math';
-
-import 'package:black_broth/models/food_item_model.dart';
 import 'package:black_broth/theme/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../services/cart_service.dart';
 
 class MyBotton extends StatelessWidget {
   final String text;

@@ -3,11 +3,11 @@ import '../theme/app_colors.dart';
 
 class MySearchBar extends StatelessWidget {
   final TextEditingController controller;
-  final Function(String) onChanged;
+  // final Function(String) onChanged;
   const MySearchBar({
     super.key,
     required this.controller,
-    required this.onChanged,
+    // required this.onChanged,
   });
 
   @override
@@ -15,7 +15,7 @@ class MySearchBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 40, right: 40),
       child: SearchBar(
-        onChanged: onChanged,
+        // onChanged: onChanged,
         controller: controller,
         backgroundColor: WidgetStatePropertyAll(AppColors.tertiary),
         elevation: WidgetStatePropertyAll(0),

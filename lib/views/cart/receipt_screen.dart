@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
@@ -33,11 +31,11 @@ Future<void> generateReceipt(BuildContext context) async {
                       mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                       children: [
                         pw.Text(
-                          item.food.name,
+                          item.food['name'],
                           style: pw.TextStyle(fontSize: 14),
                         ),
                         pw.Text(
-                          "\$${item.food.price.toStringAsFixed(2)} x ${item.quantity}",
+                          "\$${item.food['price'].toStringAsFixed(2)} x ${item.quantity}",
                         ),
                       ],
                     );

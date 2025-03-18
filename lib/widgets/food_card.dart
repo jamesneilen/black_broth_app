@@ -1,13 +1,11 @@
 import 'package:black_broth/models/food_item_model.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import '../services/food_service.dart';
 import '../theme/app_colors.dart';
 import '../views/food/food_item_view_screen.dart';
 
 class FoodCard extends StatelessWidget {
   const FoodCard({super.key, required this.food});
-  final FoodItem food;
+  final food;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +41,7 @@ class FoodCard extends StatelessWidget {
                   children: [
                     SizedBox(height: 40),
                     Text(
-                      food.name,
+                      food["name"],
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 17,
@@ -52,7 +50,7 @@ class FoodCard extends StatelessWidget {
                     ),
                     SizedBox(height: 5),
                     Text(
-                      "\XAF${food.price.toStringAsFixed(2)}",
+                      "XAF${food["price"]}",
                       style: TextStyle(
                         color: AppColors.primary,
                         fontSize: 14,
@@ -69,7 +67,7 @@ class FoodCard extends StatelessWidget {
               child: CircleAvatar(
                 radius: 60, // Increases size for visibility
                 backgroundColor: Colors.white, // Optional: Makes it pop
-                backgroundImage: AssetImage(food.image),
+                backgroundImage: AssetImage("assets/images/${food["image"]}"),
               ),
             ),
           ],
