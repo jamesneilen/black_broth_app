@@ -104,7 +104,11 @@ class CartScreen extends StatelessWidget {
                                     "assets/images/${cartItem.food['image']}",
                                   ),
                                 ),
-                                title: Text(cartItem.food['name']),
+                                title: Text(
+                                  cartItem.food['name'],
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
                                 subtitle: Text(
                                   "XAF${cartItem.food['price'].toStringAsFixed(2)} x ${cartItem.quantity}",
                                 ),
